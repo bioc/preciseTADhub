@@ -1,0 +1,70 @@
+---
+title: "Predicting TAD/loop boundaries using pre-trained models provided by preciseTADhub"
+author:
+- name: Spiro Stilianoudakis
+  affiliation:
+  - &1 Department of Biostatistics, Virginia Commonwealth University, Richmond, VA
+- name: Mikhail Dozmorov
+  affiliation:
+  - *1
+date: '`r format(Sys.Date(), "%B %e, %Y")`'
+output:
+    BiocStyle::html_document
+vignette: >
+  %\VignetteIndexEntry{preciseTADhub}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options:
+    chunk_output_type: console
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 400)
+knitr::opts_chunk$set(warnings = FALSE, message = FALSE)
+```
+
+# Implementing *preciseTAD*, an R package for predicting TAD/loop boundaries at base-level resolution using pre-trained models stored in *preciseTADhub*
+
+## Loading Libraries
+
+```{r, eval=FALSE}
+library(preciseTAD)
+library(ExperimentHub)
+```
+
+## Load CHR1_GM12878_5kb_Arrowhead object
+
+```{r, eval=FALSE}
+eh <- ExperimentHub()
+myfiles <- query(eh, "preciseTADhub")
+CHR1_GM12878_5kb_Arrowhead <- myfiles[[1]] 
+
+# store the model object
+tadModel <- CHR1_GM12878_5kb_Arrowhead[[1]]
+```
+
+## Use the pre-trained model to predict TAD boundaries on CHR1 for GM12878 at base-level resolution
+
+```{r, eval=FALSE}
+data("tfbsList")
+
+# Restrict the data matrix to include only SMC3, RAD21, CTCF, and ZNF143
+tfbsList_filt <- tfbsList[names(tfbsList) %in% c("Gm12878-Ctcf-Broad", 
+                                            "Gm12878-Rad21-Haib",
+                                            "Gm12878-Smc3-Sydh",
+                                            "Gm12878-Znf143-Sydh")]
+
+# Run preciseTAD
+set.seed(123)
+pt <- preciseTAD(genomicElements.GR = tfbsList_filt,
+                featureType         = "distance",
+                CHR                 = "CHR1",
+                chromCoords         = NULL,
+                tadModel            = tadModel,
+                threshold           = 1.0,
+                verbose             = FALSE,
+                parallel            = NULL,
+                DBSCAN_params       = list(10000, 3),
+                flank               = 5000)
+```
+

@@ -1,0 +1,30 @@
+Package: preciseTADhub
+Type: Package
+Title: Pre-trained models obtained using preciseTAD
+Version: 0.99.1
+Authors@R: c(
+    person("Spiro", "Stilianoudakis", 
+        email = "stilianoudasc@vcu.edu", 
+        role = c("aut","cre")),
+    person("Mikhail", "Dozmorov", 
+        email = "mikhail.dozmorov@vcuhealth.org", 
+        role = c("aut")))
+Description: An experimentdata package to supplement the preciseTAD package 
+    containing pre-trained models and their performance metrics parsed into list
+    objects and available in ExperimentHub.
+License: MIT + file LICENSE
+Depends: R (>= 4.0.0)
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat,
+    BiocCheck,
+    BiocManager,
+    BiocStyle
+VignetteBuilder: knitr
+biocViews: ExperimentData, Software, HiC, Sequencing,  Classification, 
+    FunctionalGenomics
+NeedsCompilation: no
+RoxygenNote: 7.1.0
