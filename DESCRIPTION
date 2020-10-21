@@ -1,7 +1,7 @@
 Package: preciseTADhub
 Type: Package
 Title: Pre-trained models obtained using preciseTAD
-Version: 0.99.1
+Version: 0.99.0
 Authors@R: c(
     person("Spiro", "Stilianoudakis", 
         email = "stilianoudasc@vcu.edu", 
