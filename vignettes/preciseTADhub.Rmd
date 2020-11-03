@@ -27,17 +27,18 @@ knitr::opts_chunk$set(warnings = FALSE, message = FALSE)
 
 ## Loading Libraries
 
-```{r, eval=FALSE}
+```{r}
 library(preciseTAD)
 library(ExperimentHub)
 ```
 
 ## Load CHR1_GM12878_5kb_Arrowhead object
 
-```{r, eval=FALSE}
-eh <- ExperimentHub()
-myfiles <- query(eh, "preciseTADhub")
-CHR1_GM12878_5kb_Arrowhead <- myfiles[[1]] 
+```{r}
+hub <- ExperimentHub()
+query(hub, "preciseTADhub")
+myfiles <- query(hub, "preciseTADhub")
+CHR1_GM12878_5kb_Arrowhead <- myfiles[["EH3815"]] 
 
 # store the model object
 tadModel <- CHR1_GM12878_5kb_Arrowhead[[1]]
@@ -45,7 +46,7 @@ tadModel <- CHR1_GM12878_5kb_Arrowhead[[1]]
 
 ## Use the pre-trained model to predict TAD boundaries on CHR1 for GM12878 at base-level resolution
 
-```{r, eval=FALSE}
+```{r}
 data("tfbsList")
 
 # Restrict the data matrix to include only SMC3, RAD21, CTCF, and ZNF143
