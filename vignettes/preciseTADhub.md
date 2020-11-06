@@ -7,7 +7,7 @@ author:
 - name: Mikhail Dozmorov
   affiliation:
   - *1
-date: '`r format(Sys.Date(), "%B %e, %Y")`'
+date: 'November  6, 2020'
 package: preciseTADhub
 output:
     BiocStyle::html_document
@@ -19,9 +19,7 @@ editor_options:
     chunk_output_type: console
 ---
 
-```{r set-options, echo=FALSE, cache=FALSE}
-knitr::opts_chunk$set(warnings = FALSE, message = FALSE)
-```
+
 
 # Introduction
 
@@ -43,7 +41,8 @@ The following is an example of how to predict TAD boundaries at base-level resol
 
 ## Installation
 
-```{r}
+
+```r
 library(preciseTAD)
 library(ExperimentHub)
 ```
@@ -142,10 +141,39 @@ Table: File names and corresponding ExperimentHub (EH) IDs for all 84 .RDS files
 
 Below is a function that can be used to read in specific models by file name/EHID.
 
-```{r}
+
+```r
 #Initialize ExperimentHub
 hub <- ExperimentHub()
 query(hub, "preciseTADhub")
+```
+
+```
+## ExperimentHub with 84 records
+## # snapshotDate(): 2020-11-06
+## # $dataprovider: preciseTAD
+## # $species: Homo sapiens
+## # $rdataclass: list
+## # additional mcols(): taxonomyid, genome, description,
+## #   coordinate_1_based, maintainer, rdatadateadded, preparerclass, tags,
+## #   rdatapath, sourceurl, sourcetype 
+## # retrieve records with, e.g., 'object[["EH3815"]]' 
+## 
+##            title                          
+##   EH3815 | CHR1_GM12878_5kb_Arrowhead.rds 
+##   EH3816 | CHR1_GM12878_10kb_Peakachu.rds 
+##   EH3817 | CHR1_K562_5kb_Arrowhead.rds    
+##   EH3818 | CHR1_K562_10kb_Peakachu.rds    
+##   EH3819 | CHR2_GM12878_5kb_Arrowhead.rds 
+##   ...      ...                            
+##   EH3894 | CHR21_K562_10kb_Peakachu.rds   
+##   EH3895 | CHR22_GM12878_5kb_Arrowhead.rds
+##   EH3896 | CHR22_GM12878_10kb_Peakachu.rds
+##   EH3897 | CHR22_K562_5kb_Arrowhead.rds   
+##   EH3898 | CHR22_K562_10kb_Peakachu.rds
+```
+
+```r
 myfiles <- query(hub, "preciseTADhub")
 
 # Read in File names and EHIDs
@@ -173,32 +201,11 @@ readEH <- function(chr, cl, gt){
 CHR22_GM12878_5kb_Arrowhead <- readEH("CHR22", "GM12878", "Arrowhead")
 ```
 
+```
+## Warning: package 'preciseTADhub' is in use and will not be installed
+```
+
 # Use the pre-trained model to predict TAD boundaries on CHR22 for GM12878 at base-level resolution
 
-```{r, eval=FALSE}
-data("tfbsList")
 
-# Restrict the data matrix to include only SMC3, RAD21, CTCF, and ZNF143
-tfbsList_filt <- tfbsList[names(tfbsList) %in% c("Gm12878-Ctcf-Broad", 
-                                            "Gm12878-Rad21-Haib",
-                                            "Gm12878-Smc3-Sydh",
-                                            "Gm12878-Znf143-Sydh")]
-names(tfbsList_filt) <- c("Ctcf", "Rad21", "Smc3", "Znf143")
-
-
-# Run preciseTAD
-set.seed(123)
-pt <- preciseTAD(genomicElements.GR = tfbsList_filt,
-                featureType         = "distance",
-                CHR                 = "CHR22",
-                chromCoords         = NULL,
-                tadModel            = CHR22_GM12878_5kb_Arrowhead,
-                threshold           = 1.0,
-                verbose             = FALSE,
-                parallel            = NULL,
-                DBSCAN_params       = list(10000, 3),
-                flank               = 5000)
-
-pt
-```
 
