@@ -148,8 +148,20 @@ hub <- ExperimentHub()
 query(hub, "preciseTADhub")
 myfiles <- query(hub, "preciseTADhub")
 
-# Read in File names and EHIDs
-data("FileNames")
+# Create data.frame with file names and IDs
+x <- 3815
+a <- character()
+b <- character()
+for(i in paste0("CHR",c(1:8,10:22))){
+    for(j in c("GM12878","K562")){
+        for(k in c("5kb_Arrowhead","10kb_Peakachu")){
+            a <- c(a, paste0(i,"_",j,"_",k))
+            b <- c(b, paste0("EH",x))
+            x <- x+1
+        }
+    }
+}
+FileNames <- data.frame(FileName = a, EHID = b)
 
 # Function for reading in pre-trained model
 readEH <- function(chr, cl, gt){
