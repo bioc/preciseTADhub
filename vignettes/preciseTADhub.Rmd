@@ -154,7 +154,7 @@ a <- character()
 b <- character()
 for(i in paste0("CHR",c(1:8,10:22))){
     for(j in c("GM12878","K562")){
-        for(k in c("5kb_Arrowhead","10kb_Peakachu")){
+        for(k in c("5kb_Arrowhead.rds","10kb_Peakachu.rds")){
             a <- c(a, paste0(i,"_",j,"_",k))
             b <- c(b, paste0("EH",x))
             x <- x+1
@@ -182,7 +182,7 @@ readEH <- function(chr, cl, gt){
   return(ptm)
 }
 
-CHR22_GM12878_5kb_Arrowhead <- readEH("CHR22", "GM12878", "Arrowhead")
+CHR22_GM12878_5kb_Arrowhead <- readEH(chr = "CHR22", cl = "GM12878", gt = "Arrowhead")
 ```
 
 # Use the pre-trained model to predict TAD boundaries on CHR22 for GM12878 at base-level resolution
