@@ -35,7 +35,7 @@ Suggests:
     BiocStyle,
     preciseTAD
 VignetteBuilder: knitr
-biocViews: ExperimentData, ExperimentHub, HiC, Sequencing,  Classification, 
+biocViews: ExperimentData, HiC, Sequencing,  Classification, 
     FunctionalGenomics
 NeedsCompilation: no
 RoxygenNote: 7.1.1
