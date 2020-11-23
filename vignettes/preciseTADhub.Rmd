@@ -27,7 +27,7 @@ knitr::opts_chunk$set(warnings = FALSE, message = FALSE)
 
 `preciseTADhub` is an ExperimentData R package that supplements the `preciseTAD` software R package. `preciseTADhub` offers users access to pre-trained random forest classification models used to predict TAD/loop boundary regions. The model building process introduced by `preciseTAD` (https://doi.org/10.1101/2020.09.03.282186) can be computationally intensive. To avoid this burden, we have provided users with 84 (2 cell lines $\times$ 2 ground truth boundaries $\times$ 21 autosomal chromosomes) .RDS files containing pre-trained models that can be leveraged to predict TAD and/or chromatin loop boundaries at base-level resolution using functionality provided by `preciseTAD` (https://bioconductor.org/packages/devel/bioc/vignettes/preciseTAD/inst/doc/preciseTAD.html). 
 
-Each of the 84 files are stored as lists containing two objects: 1) a train object from \code{caret} with RF model information, and 2) a data.frame of variable importance for each genomic annotation included in the model. The file names are stuctured as follows: 
+Each of the 84 files are stored as lists containing two objects: 1) a train object from \code{caret} with RF model information, and 2) a data.frame of variable importance for each genomic annotation included in the model. The file names are structured as follows: 
 
 $i$_$j$_$k$_$l$.rds
 
@@ -44,8 +44,12 @@ The following is an example of how to predict TAD boundaries at base-level resol
 ## Installation
 
 ```{r}
-library(preciseTAD)
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+#BiocManager::install(c("ExperimentHub"), version = "3.12")
+
 library(ExperimentHub)
+library(preciseTAD)
 ```
 
 ## Reading in a file stored on ExperimentHub
@@ -185,7 +189,7 @@ readEH <- function(chr, cl, gt){
 CHR22_GM12878_5kb_Arrowhead <- readEH(chr = "CHR22", cl = "GM12878", gt = "Arrowhead")
 ```
 
-# Use the pre-trained model to predict TAD boundaries on CHR22 for GM12878 at base-level resolution
+# Use the pre-trained model to predict TAD boundaries on CHR22 for GM12878 between coordinates 17000000-19000000 at base-level resolution
 
 ```{r, eval=FALSE}
 data("tfbsList")
@@ -203,7 +207,7 @@ set.seed(123)
 pt <- preciseTAD(genomicElements.GR = tfbsList_filt,
                 featureType         = "distance",
                 CHR                 = "CHR22",
-                chromCoords         = NULL,
+                chromCoords         = list(17000000, 27000000),
                 tadModel            = CHR22_GM12878_5kb_Arrowhead,
                 threshold           = 1.0,
                 verbose             = FALSE,
