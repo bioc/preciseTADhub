@@ -1,7 +1,7 @@
 Package: preciseTADhub
 Type: Package
 Title: Pre-trained random forest models obtained using preciseTAD
-Version: 0.99.5
+Version: 0.99.6
 Authors@R: c(
     person("Spiro", "Stilianoudakis", 
         email = "stilianoudasc@vcu.edu", 
@@ -35,8 +35,7 @@ Suggests:
     BiocStyle,
     preciseTAD
 VignetteBuilder: knitr
-biocViews: ExperimentData, HiC, Sequencing,  Classification, 
-    FunctionalGenomics
+biocViews: ExperimentData, PackageTypeData, ExperimentHub, Genome
 NeedsCompilation: no
 RoxygenNote: 7.1.1
 BugReports: https://github.com/dozmorovlab/preciseTADhub/issues

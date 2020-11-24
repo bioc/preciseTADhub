@@ -54,7 +54,7 @@ library(preciseTAD)
 
 ## Reading in a file stored on ExperimentHub
 
-Table 1 shows the file names and the corresponding ExperimentHub (EH) IDs. Since we want to make TAD boundary predictions on CHR22 for GM12878, we opt to read in the "CHR1_GM12878_5kb_Arrowhead.rds" file. This corresponds to the EH3895 EHID.
+Table 1 shows the file names and the corresponding ExperimentHub (EH) IDs. Since we want to make TAD boundary predictions on CHR22 for GM12878, we opt to read in the "CHR22_GM12878_5kb_Arrowhead.rds" file. This corresponds to the EH3895 EHID.
 
 | FileName                        | EHID          |
 |---------------------------------|---------------|
@@ -144,7 +144,7 @@ Table 1 shows the file names and the corresponding ExperimentHub (EH) IDs. Since
 | CHR22_K562_10kb_Peakachu.rds    | EH3898        |
 Table: File names and corresponding ExperimentHub (EH) IDs for all 84 .RDS files stored in `preciseTADhub`.
 
-Below is a function that can be used to read in specific models by file name/EHID.
+Suppose we want to read in the model that was built using CHR1-CHR21, on GM12878, using Arrowhead defined TAD boundaries at 5kb resolution. We can do this with the following wrapper function. Note: you must initialize `ExperimentHub` first.
 
 ```{r}
 #Initialize ExperimentHub
@@ -152,44 +152,10 @@ hub <- ExperimentHub()
 query(hub, "preciseTADhub")
 myfiles <- query(hub, "preciseTADhub")
 
-# Create data.frame with file names and IDs
-x <- 3815
-a <- character()
-b <- character()
-for(i in paste0("CHR",c(1:8,10:22))){
-    for(j in c("GM12878","K562")){
-        for(k in c("5kb_Arrowhead.rds","10kb_Peakachu.rds")){
-            a <- c(a, paste0(i,"_",j,"_",k))
-            b <- c(b, paste0("EH",x))
-            x <- x+1
-        }
-    }
-}
-FileNames <- data.frame(FileName = a, EHID = b)
-
-# Function for reading in pre-trained model
-readEH <- function(chr, cl, gt){
-  EHID <- FileNames$EHID[which(FileNames$FileName == paste0(chr, 
-                                                            "_",
-                                                            cl,
-                                                            "_",
-                                                            ifelse(gt=="Arrowhead", "5kb", "10kb"),
-                                                            "_",
-                                                            gt,
-                                                            ".rds"))]
-  
-  ptm <- myfiles[[EHID]] 
-  
-  #keep only the model object
-  ptm <- ptm[[1]]
-  
-  return(ptm)
-}
-
 CHR22_GM12878_5kb_Arrowhead <- readEH(chr = "CHR22", cl = "GM12878", gt = "Arrowhead")
 ```
 
-# Use the pre-trained model to predict TAD boundaries on CHR22 for GM12878 between coordinates 17000000-19000000 at base-level resolution
+# Use the pre-trained model to predict TAD boundaries on the holdout chromosome (CHR22) for GM12878 between coordinates 17000000-19000000 at base-level resolution
 
 ```{r, eval=FALSE}
 data("tfbsList")
