@@ -34,6 +34,7 @@ Suggests:
     rmarkdown,
     BiocStyle,
     preciseTAD
+Imports: ExperimentHub
 VignetteBuilder: knitr
 biocViews: ExperimentData, PackageTypeData, ExperimentHub, Genome
 NeedsCompilation: no

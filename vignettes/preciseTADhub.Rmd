@@ -50,6 +50,7 @@ The following is an example of how to predict TAD boundaries at base-level resol
 
 library(ExperimentHub)
 library(preciseTAD)
+library(preciseTADhub)
 ```
 
 ## Reading in a file stored on ExperimentHub
@@ -152,12 +153,12 @@ hub <- ExperimentHub()
 query(hub, "preciseTADhub")
 myfiles <- query(hub, "preciseTADhub")
 
-CHR22_GM12878_5kb_Arrowhead <- readEH(chr = "CHR22", cl = "GM12878", gt = "Arrowhead")
+CHR22_GM12878_5kb_Arrowhead <- readEH(chr = "CHR22", cl = "GM12878", gt = "Arrowhead", source = myfiles)
 ```
 
 # Use the pre-trained model to predict TAD boundaries on the holdout chromosome (CHR22) for GM12878 between coordinates 17000000-19000000 at base-level resolution
 
-```{r, eval=FALSE}
+```{r}
 data("tfbsList")
 
 # Restrict the data matrix to include only SMC3, RAD21, CTCF, and ZNF143
@@ -173,7 +174,7 @@ set.seed(123)
 pt <- preciseTAD(genomicElements.GR = tfbsList_filt,
                 featureType         = "distance",
                 CHR                 = "CHR22",
-                chromCoords         = list(17000000, 27000000),
+                chromCoords         = list(17000000, 19000000),
                 tadModel            = CHR22_GM12878_5kb_Arrowhead,
                 threshold           = 1.0,
                 verbose             = FALSE,
