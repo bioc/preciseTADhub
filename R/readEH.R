@@ -17,7 +17,6 @@
 #' @import ExperimentHub
 #'
 #' @examples
-#' \dontrun{
 #' # Suppose we want to read in the model that was built using CHR1-CHR21,
 #' # on GM12878, using Arrowhead defined TAD boundaries at 5kb resolution.
 #'
@@ -31,7 +30,6 @@
 #'                                       cl = "GM12878",
 #'                                       gt = "Arrowhead",
 #'                                       source = myfiles)
-#' }
 readEH <- function(chr, cl, gt, source){
 
     # Create data.frame with file names and IDs
