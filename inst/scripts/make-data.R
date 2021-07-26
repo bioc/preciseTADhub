@@ -52,16 +52,15 @@ data(arrowhead_gm12878_5kb)
 
 # Extract unique boundaries
 bounds.GR <- extractBoundaries(domains.mat = arrowhead_gm12878_5kb,
-                               preprocess = FALSE,
-                               CHR = paste0("CHR", c(2:8,10:22)),
+                               filter = FALSE,
+                               CHR = paste0("CHR", c(22)),
                                resolution = 5000)
 
 # Read in GRangesList of 26 TFBS
 data(tfbsList)
-tfbsList_filt <- tfbsList[names(tfbsList) %in% c("Gm12878-Ctcf-Broad",
-                                                 "Gm12878-Rad21-Haib",
-                                                 "Gm12878-Smc3-Sydh",
-                                                 "Gm12878-Znf143-Sydh")]
+tfbsList_filt <- tfbsList[names(tfbsList) %in% c("Ctcf",
+                                                 "Rad21",
+                                                 "Smc3")]
 
 # Create the binned data matrix for CHR2-22 (training)
 # using 5 kb binning, distance-type predictors from 4 TFBS from
@@ -71,13 +70,13 @@ tadData <- createTADdata(bounds.GR = bounds.GR,
                          genomicElements.GR = tfbsList_filt,
                          featureType = "distance",
                          resampling = "rus",
-                         trainCHR = paste0("CHR", c(2:8,10:22)),
-                         predictCHR = NULL)
+                         trainCHR = paste0("CHR", c(22)),
+                         predictCHR = paste0("CHR", c(22)))
 
 # Perform random forest using TADrandomForest by tuning mtry over 10 values
 # using 3-fold CV
-CHR1_GM12878_5kb_Arrowhead <- TADrandomForest(trainData = tadData[[1]],
-                            testData = NULL,
+CHR22_GM12878_5kb_Arrowhead <- TADrandomForest(trainData = tadData[[1]],
+                            testData = tadData[[2]],
                             tuneParams = list(mtry = 2,
                                               ntree = 500,
                                               nodesize = 1),
