@@ -25,13 +25,13 @@ knitr::opts_chunk$set(warnings = FALSE, message = FALSE)
 
 # Introduction
 
-`preciseTADhub` is an ExperimentData R package that supplements the `preciseTAD` software R package. `preciseTADhub` offers users access to pre-trained random forest classification models used to predict TAD/loop boundary regions. The model building process introduced by `preciseTAD` (https://doi.org/10.1101/2020.09.03.282186) can be computationally intensive. To avoid this burden, we have provided users with 84 (2 cell lines $\times$ 2 ground truth boundaries $\times$ 21 autosomal chromosomes) .RDS files containing pre-trained models that can be leveraged to predict TAD and/or chromatin loop boundaries at base-level resolution using functionality provided by `preciseTAD` (https://bioconductor.org/packages/devel/bioc/vignettes/preciseTAD/inst/doc/preciseTAD.html). 
+`preciseTADhub` is an ExperimentData R package that supplements the `preciseTAD` software R package. `preciseTADhub` offers users access to pre-trained random forest classification models used to predict TAD/loop boundary regions. The model building process introduced by `preciseTAD` (https://doi.org/10.1101/2020.09.03.282186) can be computationally intensive. To avoid this burden, we have provided users with 84 (2 cell lines $\times$ 2 ground truth boundaries $\times$ 21 autosomal chromosomes) .RDS files containing pre-trained models that can be leveraged to predict TAD and/or chromatin loop boundaries at base-level resolution using functionality provided by [preciseTAD](https://bioconductor.org/packages/devel/bioc/vignettes/preciseTAD/inst/doc/preciseTAD.html). 
 
 Each of the 84 files are stored as lists containing two objects: 1) a train object from \code{caret} with RF model information, and 2) a data.frame of variable importance for each genomic annotation included in the model. The file names are structured as follows: 
 
 $i$_$j$_$k$_$l$.rds
 
-where $i$ denotes the chromosome that was used as a holdout {CHR1, CHR2, ..., CHR21, CHR22} (i.e. for testing; meaning all other chromosomes were used for training), j denotes the cell line {GM12878, K562}, k denotes the resolution (size of genomic bins) {5kb, 10kb}, and l denotes the TAD/loop caller used to define ground truth {Arrowhead, Peakachu}.
+where $i$ denotes the chromosome that was used as a holdout {CHR1, CHR2, ..., CHR21, CHR22} (i.e. for testing; meaning all other chromosomes were used for training), $j$ denotes the cell line {GM12878, K562}, $k$ denotes the resolution (size of genomic bins) {5kb, 10kb}, and $l$ denotes the TAD/loop caller used to define ground truth {Arrowhead, Peakachu}.
 
 For example the file named "CHR1_GM12878_5kb_Arrowhead.rds" is a list whose first item is a RF model that was built on data for chromosomes 2-22 (omitting CHR9; see https://doi.org/10.1101/2020.09.03.282186), binned using 5 kb bins, ground truth TAD boundaries were identified using the Arrowhead TAD caller at 5 kb on GM12878. All models included the same number of predictors including CTCF, RAD21, SMC3, and ZNF143. The second item in the list is a data.frame with variable importances for CTCF, RAD21, SMC3, and ZNF143.
 
@@ -156,7 +156,7 @@ myfiles <- query(hub, "preciseTADhub")
 CHR22_GM12878_5kb_Arrowhead <- readEH(chr = "CHR22", cl = "GM12878", gt = "Arrowhead", source = myfiles)
 ```
 
-# Use the pre-trained model to predict TAD boundaries on the holdout chromosome (CHR22) for GM12878 between coordinates 17000000-19000000 at base-level resolution
+# Use the pre-trained model to predict TAD boundaries on the holdout chromosome (CHR22) for GM12878 between coordinates 18000000-19000000 at base-level resolution
 
 ```{r}
 data("tfbsList")
@@ -174,13 +174,14 @@ set.seed(123)
 pt <- preciseTAD(genomicElements.GR = tfbsList_filt,
                 featureType         = "distance",
                 CHR                 = "CHR22",
-                chromCoords         = list(17000000, 19000000),
+                chromCoords         = list(18000000, 19000000),
                 tadModel            = CHR22_GM12878_5kb_Arrowhead,
                 threshold           = 1.0,
                 verbose             = FALSE,
                 parallel            = NULL,
-                DBSCAN_params       = list(10000, 3),
-                flank               = 5000)
+                DBSCAN_params       = list(30000, 3),
+                slope               = 5000,
+                genome              = "hg19")
 
 pt
 ```
