@@ -1,14 +1,14 @@
 Package: preciseTADhub
 Type: Package
 Title: Pre-trained random forest models obtained using preciseTAD
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(
     person("Spiro", "Stilianoudakis", 
         email = "stilianoudasc@vcu.edu", 
-        role = c("aut","cre")),
+        role = c("aut")),
     person("Mikhail", "Dozmorov", 
-        email = "mikhail.dozmorov@vcuhealth.org", 
-        role = c("aut")))
+        email = "mikhail.dozmorov@gmail.com", 
+        role = c("aut", "cre")))
 Description: An experimentdata package to supplement the preciseTAD package 
     containing pre-trained models and the variable importances of each genomic 
     annotation used to build the model parsed into list objects and available in
