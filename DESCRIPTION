@@ -1,7 +1,7 @@
 Package: preciseTADhub
 Type: Package
 Title: Pre-trained random forest models obtained using preciseTAD
-Version: 1.3.0
+Version: 1.1.1
 Authors@R: c(
     person("Spiro", "Stilianoudakis", 
         email = "stilianoudasc@vcu.edu", 
