@@ -32,6 +32,7 @@ LazyData: true
 Suggests: 
     knitr,
     rmarkdown,
+    markdown,
     BiocStyle,
     preciseTAD
 Imports: ExperimentHub
