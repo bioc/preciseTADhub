@@ -179,9 +179,9 @@ pt <- preciseTAD(genomicElements.GR = tfbsList_filt,
                 threshold           = 1.0,
                 verbose             = FALSE,
                 parallel            = NULL,
-                DBSCAN_params       = list(30000, 3),
-                slope               = 5000,
-                genome              = "hg19")
+                DBSCAN_params       = list(30000, 3))
+                # slope               = 5000,
+                # genome              = "hg19")
 
 pt
 ```
